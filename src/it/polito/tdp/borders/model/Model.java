@@ -50,22 +50,29 @@ public class Model {
 		ArrayList<Country> visitati=new ArrayList<Country>();
 		ArrayList<Country> davisitare=new ArrayList<Country>();
 		visitati.add(stato);
-		davisitare.remove(stato);
 		for(DefaultEdge e: grafo.outgoingEdgesOf(stato)) {
-			Country c=grafo.getEdgeTarget(e);
-			if(!visitati.contains(c))
-				davisitare.add(c);
+			Country c;
+			if(!grafo.getEdgeTarget(e).equals(stato))
+				 c=grafo.getEdgeTarget(e);
+			else
+				c=grafo.getEdgeSource(e);
+			davisitare.add(c);
 		}
 		while(davisitare.size()!=0) {
 			stato=davisitare.get(0);
 		visitati.add(stato);
 		davisitare.remove(stato);
-		for(DefaultEdge e: grafo.outgoingEdgesOf(stato)) {
-			Country c=grafo.getEdgeTarget(e);
+		for(DefaultEdge e: grafo.incomingEdgesOf(stato)) {
+			Country c;
+			if(!grafo.getEdgeTarget(e).equals(stato))
+				 c=grafo.getEdgeTarget(e);
+			else
+				c=grafo.getEdgeSource(e);
 			if(!visitati.contains(c) && !davisitare.contains(c))
 				davisitare.add(c);
 		}
 		}
+		System.out.println("trovati "+visitati.size());
 		return visitati;
 	}
 
