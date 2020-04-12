@@ -47,17 +47,26 @@ public class Model {
 
 	public ArrayList<Country> esplora(Country stato) {
 		
-		ArrayList<Country> result = new ArrayList<Country>();
-		HashMap backVisit= new HashMap<>();
-		GraphIterator<Country,DefaultEdge> it=new BreadthFirstIterator<>(this.grafo, stato); 
-		
-		it.addTraversalListener(new EdgeTraverseGraphListener(grafo, backVisit));
-				
-		backVisit.put(stato, null);
-		while(it.hasNext()) {
-			result.add(it.next());
+		ArrayList<Country> visitati=new ArrayList<Country>();
+		ArrayList<Country> davisitare=new ArrayList<Country>();
+		visitati.add(stato);
+		davisitare.remove(stato);
+		for(DefaultEdge e: grafo.outgoingEdgesOf(stato)) {
+			Country c=grafo.getEdgeTarget(e);
+			if(!visitati.contains(c))
+				davisitare.add(c);
 		}
-		return result;
+		while(davisitare.size()!=0) {
+			stato=davisitare.get(0);
+		visitati.add(stato);
+		davisitare.remove(stato);
+		for(DefaultEdge e: grafo.outgoingEdgesOf(stato)) {
+			Country c=grafo.getEdgeTarget(e);
+			if(!visitati.contains(c) && !davisitare.contains(c))
+				davisitare.add(c);
+		}
+		}
+		return visitati;
 	}
 
 }
