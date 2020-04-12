@@ -21,7 +21,7 @@ public class Model {
 	
 	public ArrayList<Country> generaGrafo(int anno) {
 		this.grafo=new SimpleGraph<>(DefaultEdge.class);
-		ArrayList<Country> stati= new ArrayList<Country>(dao.loadAllCountries());
+		ArrayList<Country> stati= new ArrayList<Country>(dao.countryConConfine(anno));
 		Graphs.addAllVertices(grafo, stati);
 		for(Border b: dao.getCountryPairs(anno)) {
 			grafo.addEdge(b.getPrimo(), b.getSecondo());
