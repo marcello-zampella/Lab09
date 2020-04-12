@@ -73,6 +73,7 @@ public class BordersController {
     	for(Country c: esplorazione) {
     		this.txtResult.appendText(c.getNomeStato()+"\n");
     	}
+    	System.out.println(esplorazione.size());
     }
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
