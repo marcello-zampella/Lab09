@@ -40,7 +40,7 @@ public class BordersDAO {
 
 		String sql = "SELECT distinct co.CCode , co.StateAbb ,co.StateNme " + 
 				"FROM contiguity c, country co " + 
-				"WHERE c.conttype=1 AND YEAR<? AND co.CCode=c.state1no ; ";
+				"WHERE c.conttype=1 AND YEAR<=? AND co.CCode=c.state1no ; ";
 		List<Country> result = new ArrayList<Country>();
 		
 		try {
@@ -67,7 +67,7 @@ public class BordersDAO {
 
 		String sql = "SELECT co.CCode AS codiceprimo, co.StateAbb AS abbprimo ,co.StateNme AS nomeprimo,co2.CCode AS codicesecondo,co2.StateAbb AS abbsecondo,co2.StateNme AS nomesecondo " + 
 				"FROM contiguity c, country co , country co2 " + 
-				"WHERE c.conttype=1 AND YEAR<? AND co.CCode=c.state1no AND co2.CCode=c.state2no ; ";
+				"WHERE c.conttype=1 AND YEAR<=? AND co.CCode=c.state1no AND co2.CCode=c.state2no ; ";
 		ArrayList<Border> result = new ArrayList<Border>();
 		
 		try {
