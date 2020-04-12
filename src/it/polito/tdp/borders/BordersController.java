@@ -6,6 +6,7 @@ package it.polito.tdp.borders;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 import com.mysql.jdbc.StringUtils;
@@ -51,11 +52,13 @@ public class BordersController {
 			return;
 		}
 		ArrayList<Country> stati=this.model.generaGrafo(anno);
+		Collections.sort(stati,new ComparatoreNomiStati());
 		this.txtResult.clear();
 		for(Country c: stati) {
 			this.txtResult.appendText(c.getNomeStato()+" "+c.getGrado()+"\n");
 		}
 		this.txtResult.appendText("Numero componenti connesse: "+model.getNumComponentiConnesse());
+		this.Box.getItems().setAll(stati);
 	}
 	
     @FXML
@@ -76,16 +79,10 @@ public class BordersController {
 	void initialize() {
 		assert txtAnno != null : "fx:id=\"txtAnno\" was not injected: check your FXML file 'Borders.fxml'.";
 		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Borders.fxml'.";
-		
 	}
 
 	public void setModel(Model model) {
 		this.model=model;
-	//	ArrayList<String> temp=new ArrayList<String>();
-	//	for(Country c: this.model.getAllCountry()) {
-	//		temp.add(c.getNomeStato());
-		//}
-		this.Box.getItems().setAll(this.model.getAllCountry());
 		
 	}
 }
