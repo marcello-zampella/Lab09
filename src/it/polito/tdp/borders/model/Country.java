@@ -24,7 +24,20 @@ public class Country {
 
 	@Override
 	public String toString() {
-		return nomeStato+ " "+this.grado;
+		return nomeStato;
+	}
+	
+
+	public int getCodice() {
+		return codice;
+	}
+
+	public String getAbbStato() {
+		return abbStato;
+	}
+
+	public String getNomeStato() {
+		return nomeStato;
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import it.polito.tdp.borders.model.Country;
 import it.polito.tdp.borders.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -23,6 +24,10 @@ public class BordersController {
 
 	@FXML // ResourceBundle that was given to the FXMLLoader
 	private ResourceBundle resources;
+	
+
+    @FXML
+    private ComboBox<Country> Box;
 
 	@FXML // URL location of the FXML file that was given to the FXMLLoader
 	private URL location;
@@ -48,19 +53,39 @@ public class BordersController {
 		ArrayList<Country> stati=this.model.generaGrafo(anno);
 		this.txtResult.clear();
 		for(Country c: stati) {
-			this.txtResult.appendText(c.toString()+"\n");
+			this.txtResult.appendText(c.getNomeStato()+" "+c.getGrado()+"\n");
 		}
-		this.txtResult.appendText(""+model.getNumComponentiConnesse());
+		this.txtResult.appendText("Numero componenti connesse: "+model.getNumComponentiConnesse());
 	}
+	
+    @FXML
+    void doSceltaStato(ActionEvent event) {
+
+    }
+
+    @FXML
+    void doTrovaVicini(ActionEvent event) {
+    	ArrayList<Country> esplorazione=model.esplora(this.Box.getValue());
+    	this.txtResult.clear();
+    	for(Country c: esplorazione) {
+    		this.txtResult.appendText(c.getNomeStato()+"\n");
+    	}
+    }
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
 		assert txtAnno != null : "fx:id=\"txtAnno\" was not injected: check your FXML file 'Borders.fxml'.";
 		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Borders.fxml'.";
+		
 	}
 
 	public void setModel(Model model) {
 		this.model=model;
+	//	ArrayList<String> temp=new ArrayList<String>();
+	//	for(Country c: this.model.getAllCountry()) {
+	//		temp.add(c.getNomeStato());
+		//}
+		this.Box.getItems().setAll(this.model.getAllCountry());
 		
 	}
 }
