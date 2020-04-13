@@ -27,7 +27,11 @@ public class Model {
 	public  List<Country> getAllCountry() {
 		return dao.loadAllCountries();
 	}
-	
+	/**
+	 * Genera un grafo Di tutti gli stati e i relativi confini dall'anno selezionato fino al 1816
+	 * @param anno
+	 * @return ArrayList dei @Country da quell'anno fino al 1816
+	 */
 	public ArrayList<Country> generaGrafo(int anno) {
 		this.grafo=new SimpleGraph<>(DefaultEdge.class);
 		ArrayList<Country> stati= new ArrayList<Country>(dao.countryConConfine(anno));
@@ -40,9 +44,10 @@ public class Model {
 		}
 		return stati;
 	}
-
+	
+	
 	public int getNumComponentiConnesse() {
-		ConnectivityInspector conn= new ConnectivityInspector (grafo);
+		ConnectivityInspector conn= new ConnectivityInspector (grafo); //crea una lista di set, ogni set e' una componente connessa
 		return conn.connectedSets().size();
 	}
 
@@ -53,17 +58,17 @@ public class Model {
 	}
 
 	private void espandi(Country stato, ArrayList<Country> visitati) {
-		//for(DefaultEdge e:grafo.edgesOf(stato)) {
-		visitati.add(stato);
+		visitati.add(stato); //lo stato in cui sono entra nei visitati
 		Iterator<DefaultEdge> a=grafo.edgesOf(stato).iterator();
-		while(a.hasNext()) {
+		while(a.hasNext()) { //vedo uno per volta tutti i confinanti, visita in profondita'
 			Country statotemp;
 			DefaultEdge e=a.next();
 			if(!grafo.getEdgeSource(e).equals(stato))
 				statotemp=grafo.getEdgeSource(e);
 			else
 				statotemp=grafo.getEdgeTarget(e);
-			if(!visitati.contains(statotemp)) {
+			if(!visitati.contains(statotemp)) { //lo salvo come statotemp perche' stato deve essere sempre l'oggetto su cui mi trovo
+				//altrimenti quando poi faccio return sullo stesso livello, mi ritrovo su uno stato diverso
 			
 				espandi(statotemp,visitati);
 			}
