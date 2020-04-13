@@ -57,13 +57,16 @@ public class Model {
 		visitati.add(stato);
 		Iterator<DefaultEdge> a=grafo.edgesOf(stato).iterator();
 		while(a.hasNext()) {
+			Country statotemp;
 			DefaultEdge e=a.next();
 			if(!grafo.getEdgeSource(e).equals(stato))
-				stato=grafo.getEdgeSource(e);
+				statotemp=grafo.getEdgeSource(e);
 			else
-				stato=grafo.getEdgeTarget(e);
-			if(!visitati.contains(stato))
-				espandi(stato,visitati);
+				statotemp=grafo.getEdgeTarget(e);
+			if(!visitati.contains(statotemp)) {
+			
+				espandi(statotemp,visitati);
+			}
 		}
 		return;
 		
