@@ -2,6 +2,7 @@ package it.polito.tdp.borders.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.jgrapht.Graph;
@@ -46,34 +47,27 @@ public class Model {
 	}
 
 	public ArrayList<Country> esplora(Country stato) {
-		
 		ArrayList<Country> visitati=new ArrayList<Country>();
-		ArrayList<Country> davisitare=new ArrayList<Country>();
-		visitati.add(stato);
-		for(DefaultEdge e: grafo.outgoingEdgesOf(stato)) {
-			Country c;
-			if(!grafo.getEdgeTarget(e).equals(stato))
-				 c=grafo.getEdgeTarget(e);
-			else
-				c=grafo.getEdgeSource(e);
-			davisitare.add(c);
-		}
-		while(davisitare.size()!=0) {
-			stato=davisitare.get(0);
-		visitati.add(stato);
-		davisitare.remove(stato);
-		for(DefaultEdge e: grafo.incomingEdgesOf(stato)) {
-			Country c;
-			if(!grafo.getEdgeTarget(e).equals(stato))
-				 c=grafo.getEdgeTarget(e);
-			else
-				c=grafo.getEdgeSource(e);
-			if(!visitati.contains(c) && !davisitare.contains(c))
-				davisitare.add(c);
-		}
-		}
-		System.out.println("trovati "+visitati.size());
+		espandi(stato,visitati);
 		return visitati;
+	}
+
+	private void espandi(Country stato, ArrayList<Country> visitati) {
+		//for(DefaultEdge e:grafo.edgesOf(stato)) {
+		visitati.add(stato);
+		Iterator<DefaultEdge> a=grafo.edgesOf(stato).iterator();
+		while(a.hasNext()) {
+			DefaultEdge e=a.next();
+			if(!grafo.getEdgeSource(e).equals(stato))
+				stato=grafo.getEdgeSource(e);
+			else
+				stato=grafo.getEdgeTarget(e);
+			if(!visitati.contains(stato))
+				espandi(stato,visitati);
+		}
+		return;
+		
+		
 	}
 
 }
